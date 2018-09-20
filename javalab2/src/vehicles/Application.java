@@ -7,17 +7,15 @@ import java.io.*;
 public class Application {
 	static Scanner sc = new Scanner(System.in);
 	static ArrayList<Owner> owners = new ArrayList<>();
-	static String fileName = "C:\\owners.txt";
 	
 	static String line;
 	
 	public static void main(String args[]) {
 		
-		try {
-			readFile();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		readFile();
+		saveFile();
+
+
 		//testInit();
 		
 		while(true) {
@@ -42,16 +40,41 @@ public class Application {
 		}
 	}
 	
-	private static void readFile() throws FileNotFoundException {
-			FileReader fileReader = new FileReader(fileName);
-			
-			Scanner scan = new Scanner(new File(fileName));
+	private static void readFile()  {
+				
+		try {			
+			Scanner scan = new Scanner(new File(System.getProperty("user.dir") + "\\" +  "owners.txt"));
 			while(scan.hasNext()) {
 				line = scan.nextLine().toLowerCase().toString();
-				if(line.contains("Owner:")) {
-					System.out.println(line);
+				if(line.contains("user")) {
+					System.out.println("Found user");
+					String name = scan.nextLine();
+					String home = scan.nextLine();
+					int age = Integer.parseInt(scan.nextLine());
+					owners.add(new Owner(name, home, age));
+					System.out.println(owners.get(0).toString());
 				}
 			}
+		} catch (FileNotFoundException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	private static void saveFile() {
+		
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "\\" +  "owners.txt"));
+			for (Owner o : owners) {
+				writer.write("\n" + "test");
+				
+			}
+			writer.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	public static void testInit() {
@@ -69,14 +92,15 @@ public class Application {
 	}
 	
 	public static void listVehicles() {
-		ArrayList<Vehicle> parseVehicles = new ArrayList<>();
+		//ArrayList<Vehicle> parseVehicles = new ArrayList<>();
 		System.out.println("-----------------");
 		System.out.println("Listing Vehicles");
 		System.out.println("-----------------");
 		
 		for (int i = 0; i < owners.size(); i++) {
-			for (Vehicle v : owners.get(1).getVehicles()) {
-				System.out.println(v.toString());
+			for (Vehicle v : owners.get(i).getVehicles()) {
+				
+				System.out.println((owners.get(i).getName() + "'s " +  v.toString()));
 				
 			}
 
