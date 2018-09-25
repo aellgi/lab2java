@@ -16,6 +16,13 @@ public class Owner {
 		
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "Owner [vehicles=" + vehicles + ", name=" + name + ", home=" + home + ", age=" + age + "]";
+	}
+
+
 	public void addVehicle(Vehicle v) {
 		vehicles.add(v);
 	}

@@ -1,19 +1,21 @@
 package vehicles;
 
 import java.util.ArrayList;
+
 import java.util.Scanner;
 import java.io.*;
 
 public class Application {
 	static Scanner sc = new Scanner(System.in);
 	static ArrayList<Owner> owners = new ArrayList<>();
+	static File ownersFile = new File(System.getProperty("user.dir") + "\\" +  "owners.txt");
 	
 	static String line;
 	
 	public static void main(String args[]) {
 		
 		readFile();
-		saveFile();
+		//saveFile();
 
 
 		//testInit();
@@ -43,16 +45,18 @@ public class Application {
 	private static void readFile()  {
 				
 		try {			
-			Scanner scan = new Scanner(new File(System.getProperty("user.dir") + "\\" +  "owners.txt"));
+			Scanner scan = new Scanner(ownersFile);
+			int index = 0;
 			while(scan.hasNext()) {
 				line = scan.nextLine().toLowerCase().toString();
 				if(line.contains("user")) {
-					System.out.println("Found user");
+					System.out.println("Saved user from file");
 					String name = scan.nextLine();
 					String home = scan.nextLine();
 					int age = Integer.parseInt(scan.nextLine());
 					owners.add(new Owner(name, home, age));
-					System.out.println(owners.get(0).toString());
+					System.out.println(owners.get(index).toString());
+					index++;
 				}
 			}
 		} catch (FileNotFoundException ex) {
@@ -61,6 +65,8 @@ public class Application {
 	}
 	
 	private static void saveFile() {
+		
+		
 		
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "\\" +  "owners.txt"));
